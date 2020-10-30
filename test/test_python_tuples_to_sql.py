@@ -59,6 +59,17 @@ class TestPythonTuplesToSql(unittest.TestCase):
         self.assertEqual(agg.rows_count, 2)
         self.assertEqual(sql_fragment, 'boolean')
 
+    def test_make_sql_create_table_line_array(self):
+        T = namedtuple('T', 'arr')
+        agg = NamedTuplesToSql()
+        agg.feed(T([{'a': 'b'}]))
+        sql_fragment = make_sql_create_table_line_types_only(agg.accs['arr'])
+        self.assertEqual(sql_fragment, 'jsonb not null')
+
+        agg.feed(T(None))
+        sql_fragment = make_sql_create_table_line_types_only(agg.accs['arr'])
+        self.assertEqual(sql_fragment, 'jsonb')
+
 
 if __name__ == '__main__':
     unittest.main()

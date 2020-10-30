@@ -65,7 +65,7 @@ def make_sql_create_table_line_types_only(acc):
             t = 'integer'
         else:
             t = 'bigint'
-    elif type_eq(acc.t, dict):
+    elif type_eq(acc.t, dict) or type_eq(acc.t, list):
         t = 'jsonb'
     elif type_eq(acc.t, str):
         t = f'varchar ({acc.max})'
